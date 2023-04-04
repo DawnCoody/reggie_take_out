@@ -2,6 +2,7 @@ package com.dawncoody.reggie.common;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +12,8 @@ import java.util.Map;
  * @create: 2023-03-22 22:59
  */
 @Data
-public class R<T> {
+public class R<T> implements Serializable {
+    static final long serialVersionUID = 6140666027150479522L;
     /**
      * 编码：
      * 1 表示成功 其他数值便是失败

@@ -39,6 +39,9 @@ spring:
           max-idle: 4 # 连接池中的最大空闲连接
           min-idle: 0 # 连接池中的最小空闲连接
       password: dawn
+  cache:
+    redis:
+      time-to-live: 1800000 # 缓存过期时间
 mybatis-plus:
   configuration:
     # 在映射实体或者属性时，将数据库中表名的字段名的下划线去掉，按照驼峰命名
@@ -50,4 +53,3 @@ mybatis-plus:
       id-type: assign_id
 reggie:
   path: E:\各科资料\瑞吉外卖\1 瑞吉外卖项目\资料\图片资源\
-
