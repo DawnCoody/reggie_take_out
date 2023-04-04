@@ -11,12 +11,14 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @description:
@@ -32,6 +34,9 @@ public class UserController {
 
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private RedisTemplate<Object, Object> redisTemplate;
 
     /**
      * 发送邮箱验证码
@@ -52,7 +57,11 @@ public class UserController {
             mailService.sendEmail("3050511039@qq.com", user.getPhone(), "瑞吉外卖验证码", "验证码为：[" + code + "]");
 
             // 将生成的验证码保存到Session中
-            session.setAttribute(phone, code);
+            // session.setAttribute(phone, code);
+
+            // 将生成的验证码缓存到Redis中，并且设置有效期为5分钟
+            redisTemplate.opsForValue().set(phone, code, 5, TimeUnit.MINUTES);
+
             return R.success("邮箱验证码发送成功");
         }
 
@@ -66,8 +75,13 @@ public class UserController {
         String mail = map.get("phone").toString();
         // 获取验证码
         String code = map.get("code").toString();
+
         // 从Session中获取保存的验证码
-        Object codeInSession = session.getAttribute(mail);
+        // Object codeInSession = session.getAttribute(mail);
+
+        // 从Redis中获取缓存的验证码
+        Object codeInSession = redisTemplate.opsForValue().get(mail);
+
         // 进行验证码的对比（页面提交的验证码和Session中保存的验证码对比）
         if (codeInSession != null && codeInSession.equals(code)) {
             // 登录成功
@@ -84,7 +98,8 @@ public class UserController {
             session.setAttribute("user", user.getId());
             return R.success(user);
         }
-
+        // 如果用户登录成功，删除Redis中缓存的验证码
+        redisTemplate.delete(mail);
         return R.error("登录成功");
     }
 
