@@ -52,4 +52,10 @@ mybatis-plus:
       id-type: assign_id
 reggie:
 #  path: E:\各科资料\瑞吉外卖\1 瑞吉外卖项目\资料\图片资源\
-  path: /static/
+  path: reggie/
+aliyun:
+  oss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    access-key-id: LTAI5tLwCoaQww7AvsSCJFRJ
+    access-key-secret: K5xA4Ht7YjRYLuE6qyOBs254rhvbsX
+    bucket-name: dawncoody
