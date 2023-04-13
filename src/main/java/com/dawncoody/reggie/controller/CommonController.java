@@ -5,6 +5,7 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -65,11 +66,13 @@ public class CommonController {
      */
     @GetMapping("/download")
     public void download(String name, HttpServletResponse response) {
+
         try (// 输入流，通过输入流读取文件内容
-             FileInputStream fileInputStream = new FileInputStream(basePath + name);
+             FileInputStream fileInputStream = new FileInputStream(ResourceUtils.getURL("classpath:").getPath() + basePath + name);
              // 输出流，通过输出流将文件写回浏览器，在浏览器显示图片
              ServletOutputStream outputStream = response.getOutputStream();
         ) {
+            log.info("上下文路径为{}", ResourceUtils.getURL("classpath:").getPath());
             response.setContentType("image/type");
             int len = 0;
             byte[] bytes = new byte[1024];

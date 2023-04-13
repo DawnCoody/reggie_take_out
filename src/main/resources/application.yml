@@ -47,10 +47,9 @@ mybatis-plus:
     # 在映射实体或者属性时，将数据库中表名的字段名的下划线去掉，按照驼峰命名
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
   global-config:
     db-config:
       id-type: assign_id
 reggie:
 #  path: E:\各科资料\瑞吉外卖\1 瑞吉外卖项目\资料\图片资源\
-  path: src/main/resources/static/image/
+  path: /static/
