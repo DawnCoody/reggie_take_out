@@ -22,7 +22,7 @@ public class OssConfig {
     private String bucketName;
 
     @Bean
-    public OSS OSSClient() {
+    public OSS oSSClient() {
         return new OSSClient(endpoint, accessKeyId, accessKeySecret);
     }
 }

@@ -100,7 +100,7 @@ public class UserController {
         }
         // 如果用户登录成功，删除Redis中缓存的验证码
         redisTemplate.delete(mail);
-        return R.error("登录成功");
+        return R.error("登录失败");
     }
 
     @PostMapping("/loginout")
